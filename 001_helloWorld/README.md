@@ -1,6 +1,7 @@
 # 001_helloWorld
 
-Hello World example using ITM in Cortex-M4
+Hello World example using ITM in Cortex-M4.
+
 This code is from Embedded-C programming course by Fastbit Brain Academy.
 
 To get this working,
