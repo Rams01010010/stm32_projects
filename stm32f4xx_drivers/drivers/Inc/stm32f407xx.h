@@ -265,4 +265,16 @@ typedef struct{
 //SYSCFG
 #define SYSCFG_PCLK_DI()			(RCC->APB2ENR &= ~(1 << 14))
 
+
+
+/*
+ * @description: Macros for most commonly used terms
+ */
+#define SET							1
+#define RESET						0
+#define ENABLE						SET
+#define DISABLE						RESET
+#define GPIO_PIN_SET				SET
+#define GPIO_PIN_RESET				RESET
+
 #endif /* INC_STM32F407XX_H_ */
