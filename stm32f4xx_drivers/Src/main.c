@@ -17,9 +17,23 @@
  */
 
 #include <stdint.h>
+#include "stm32f407xx_gpio.h"
 
 int main(void)
 {
-    /* Loop forever */
-	for(;;);
+	GPIO_Handle_t gpio;
+	gpio.pGPIOx = GPIOD;
+	gpio.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+	gpio.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_13;
+	gpio.GPIO_PinConfig.GPIO_PinOpType = GPIO_OTYPE_PUSHPULL;
+	gpio.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PULLDOWN;
+
+	GPIO_ClockControl(GPIOD, ENABLE);
+	GPIO_Init(&gpio);
+
+	while(1)
+	{
+		GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+		for(int i = 0; i < 300000; i++);
+	}
 }

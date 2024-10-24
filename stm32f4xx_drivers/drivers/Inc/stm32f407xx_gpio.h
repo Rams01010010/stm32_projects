@@ -11,16 +11,72 @@
 
 #include "stm32f407xx.h"
 
+
+
+/*
+ * @description: GPIO Specific macros.
+ */
+//----------------------------------------------------------
+// @GPIO_PIN_MODES
+//----------------------------------------------------------
+#define GPIO_MODE_IN			0		// Input Mode
+#define GPIO_MODE_OUT			1		// Output Mode
+#define GPIO_MODE_ALTFUNC		2		// Alternate Function Mode
+#define GPIO_MODE_ANALOG		3		// Analog Mode
+#define GPIO_MODE_IT_FT			4		// Interrupt Falling-edge Trigger
+#define GPIO_MODE_IT_RT			5		// Interrupt Rising-edge Trigger
+#define GPIO_MODE_IT_RFT		6		// Interrupt Rising/Falling-edge Trigger
+//----------------------------------------------------------
+// @GPIO_OUTPUT_TYPES
+//----------------------------------------------------------
+#define GPIO_OTYPE_PUSHPULL		0		// Output Type - Push/Pull
+#define GPIO_OTYPE_OPENDRAIN	1		// Output Type - OpenDrain
+//----------------------------------------------------------
+// @GPIO_OUTPUT_SPEEDS
+//----------------------------------------------------------
+#define GPIO_OSPEED_LOW			0		// Speed - Low
+#define GPIO_OSPEED_MEDIUM		1		// Speed - Medium
+#define GPIO_OSPEED_HIGH		2		// Speed - High
+#define GPIO_OSPEED_VERYHIGH	3		// Speed - VeryHigh
+//----------------------------------------------------------
+// @GPIO_PIN_PUPD
+//----------------------------------------------------------
+#define GPIO_PIN_NOPUPD		0		// No internal pull up/down resistor
+#define GPIO_PIN_PULLUP		1		// Internal PullUp resistor
+#define GPIO_PIN_PULLDOWN	2		// Internal PullDown resistor
+//----------------------------------------------------------
+// @GPIO_PIN_NUMBERs
+//----------------------------------------------------------
+#define GPIO_PIN_0		0
+#define GPIO_PIN_1		1
+#define GPIO_PIN_2		2
+#define GPIO_PIN_3		3
+#define GPIO_PIN_4		4
+#define GPIO_PIN_5		5
+#define GPIO_PIN_6		6
+#define GPIO_PIN_7		7
+#define GPIO_PIN_8		8
+#define GPIO_PIN_9		9
+#define GPIO_PIN_10		10
+#define GPIO_PIN_11		11
+#define GPIO_PIN_12		12
+#define GPIO_PIN_13		13
+#define GPIO_PIN_14		14
+#define GPIO_PIN_15		15
+//----------------------------------------------------------
+
+
+
 /*
  * @description: Holds config details of the pin.
  */
 typedef struct
 {
-	uint8_t GPIO_PinNumber;
-	uint8_t GPIO_PinMode;
-	uint8_t GPIO_PinSpeed;
-	uint8_t GPIO_PinPuPdControl;
-	uint8_t GPIO_PinOPType;
+	uint8_t GPIO_PinNumber;			// Possible values: 0 - 15
+	uint8_t GPIO_PinMode;			// Possible values: @GPIO_PIN_MODES
+	uint8_t GPIO_PinOpSpeed;			// Possible values: @GPIO_OUTPUT_SPEEDS
+	uint8_t GPIO_PinPuPdControl;	// Possible values: @GPIO_PIN_PUPD
+	uint8_t GPIO_PinOpType;			// Possible values: @GPIO_OUTPUT_TYPES
 	uint8_t GPIO_PinAltFuncMode;
 }GPIO_PinConfig_t;
 
