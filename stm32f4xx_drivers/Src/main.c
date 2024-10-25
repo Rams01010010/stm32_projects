@@ -19,29 +19,50 @@
 #include "stm32f407xx_gpio.h"
 
 /*
- * @description: Blinks the orange led (LD3) connected to PD13
- * 				 of discovery board.
+ * @description: Toggles the orange led (LD3) connected to PD13
+ * 				 of discovery board upon pressing user button
+ * 				 connected to PA0.
  */
 int main(void)
 {
-	// Create Handle for GPIO.
+	// Create Handle for GPIO configs.
 	GPIO_Handle_t gpio;
-	// Configure the parameters.
+
+	// Enable the clock for GPIOD.
+	GPIO_ClockControl(GPIOD, ENABLE);
+	// Enable the clock for GPIOA.
+	GPIO_ClockControl(GPIOA, ENABLE);
+
+	// Configure the parameters for GPIOD.
 	gpio.pGPIOx = GPIOD;
 	gpio.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
 	gpio.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_13;
 	gpio.GPIO_PinConfig.GPIO_PinOpType = GPIO_OTYPE_PUSHPULL;
 	gpio.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PULLDOWN;
 
-	// Enable the clock for GPIOD.
-	GPIO_ClockControl(GPIOD, ENABLE);
 	// Initialize GPIOD-13 with required configs.
 	GPIO_Init(&gpio);
 
+	/*
+	 * @note: The below configurations for user button input
+	 * 		  can be skipped, the default mode will be
+	 * 		  input mode (reset state).
+	 *
+	// Configure the parameters for GPIOA.
+	gpio.pGPIOx = GPIOA;
+	gpio.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+	gpio.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_0;
+
+	// Initialize GPIOA-0 with required configs.
+	GPIO_Init(&gpio);
+	*/
+
 	while(1)
 	{
-		// Toggle LD3 led.
-		GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+		// In case the button is pressed.
+		if(GPIO_ReadPin(GPIOA, GPIO_PIN_0))
+			// Toggle LD3 led.
+			GPIO_TogglePin(GPIOD, GPIO_PIN_13);
 		// Delay
 		for(int i = 0; i < 300000; i++);
 	}
