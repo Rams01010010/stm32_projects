@@ -15,25 +15,34 @@
  *
  ******************************************************************************
  */
-
 #include <stdint.h>
 #include "stm32f407xx_gpio.h"
 
+/*
+ * @description: Blinks the orange led (LD3) connected to PD13
+ * 				 of discovery board.
+ */
 int main(void)
 {
+	// Create Handle for GPIO.
 	GPIO_Handle_t gpio;
+	// Configure the parameters.
 	gpio.pGPIOx = GPIOD;
 	gpio.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
 	gpio.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_13;
 	gpio.GPIO_PinConfig.GPIO_PinOpType = GPIO_OTYPE_PUSHPULL;
 	gpio.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PULLDOWN;
 
+	// Enable the clock for GPIOD.
 	GPIO_ClockControl(GPIOD, ENABLE);
+	// Initialize GPIOD-13 with required configs.
 	GPIO_Init(&gpio);
 
 	while(1)
 	{
+		// Toggle LD3 led.
 		GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+		// Delay
 		for(int i = 0; i < 300000; i++);
 	}
 }
