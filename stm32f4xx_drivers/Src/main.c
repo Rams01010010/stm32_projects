@@ -21,7 +21,7 @@
 /*
  * @description: Toggles the orange led (LD3) connected to PD13
  * 				 of discovery board upon pressing user button
- * 				 connected to PA0.
+ * 				 (Falling Edge) connected to PA0 using Interrupt.
  */
 int main(void)
 {
@@ -33,7 +33,7 @@ int main(void)
 	// Enable the clock for GPIOA.
 	GPIO_ClockControl(GPIOA, ENABLE);
 
-	// Configure the parameters for GPIOD.
+	// Configure the parameters for GPIOD (LED - LD3).
 	gpio.pGPIOx = GPIOD;
 	gpio.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
 	gpio.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_13;
@@ -43,27 +43,32 @@ int main(void)
 	// Initialize GPIOD-13 with required configs.
 	GPIO_Init(&gpio);
 
-	/*
-	 * @note: The below configurations for user button input
-	 * 		  can be skipped, the default mode will be
-	 * 		  input mode (reset state).
-	 *
-	// Configure the parameters for GPIOA.
+	// Configure the parameters for GPIOA (User Button).
 	gpio.pGPIOx = GPIOA;
-	gpio.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+	gpio.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IT_FT;
 	gpio.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_0;
+	gpio.GPIO_PinConfig.GPIO_PinOpType = GPIO_OTYPE_PUSHPULL;
+
+	// Configure the interrupt.
+	GPIO_IRQInterruptConfig(IRQ_NO_EXTI0, ENABLE);
+	GPIO_IRQPriorityConfig(IRQ_NO_EXTI0, 15);
 
 	// Initialize GPIOA-0 with required configs.
 	GPIO_Init(&gpio);
-	*/
 
-	while(1)
-	{
-		// In case the button is pressed.
-		if(GPIO_ReadPin(GPIOA, GPIO_PIN_0))
-			// Toggle LD3 led.
-			GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-		// Delay
-		for(int i = 0; i < 300000; i++);
-	}
+	// Infinite loop. (To test interrupt functionality)
+	while(1);
+}
+
+void delay()
+{
+	// 200ms when CoreClock is at 16MHz (default).
+	for(int i = 0; i < 500000/2; i++);
+}
+
+void EXTI0_IRQHandler(void)
+{
+	GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+	delay();
+	GPIO_IRQHandler(0);
 }

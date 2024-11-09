@@ -74,7 +74,7 @@ typedef struct
 {
 	uint8_t GPIO_PinNumber;			// Possible values: 0 - 15
 	uint8_t GPIO_PinMode;			// Possible values: @GPIO_PIN_MODES
-	uint8_t GPIO_PinOpSpeed;			// Possible values: @GPIO_OUTPUT_SPEEDS
+	uint8_t GPIO_PinOpSpeed;		// Possible values: @GPIO_OUTPUT_SPEEDS
 	uint8_t GPIO_PinPuPdControl;	// Possible values: @GPIO_PIN_PUPD
 	uint8_t GPIO_PinOpType;			// Possible values: @GPIO_OUTPUT_TYPES
 	uint8_t GPIO_PinAltFuncMode;
@@ -87,7 +87,7 @@ typedef struct
  */
 typedef struct
 {
-	GPIO_RegDef_t *pGPIOx; // Points to the pin's port address.
+	GPIO_RegDef_t *pGPIOx; 			 // Points to the pin's port address.
 	GPIO_PinConfig_t GPIO_PinConfig; // Holds the pin details.
 }GPIO_Handle_t;
 
@@ -105,10 +105,11 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);										// DeInitialize GPIOx port
 uint8_t GPIO_ReadPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);					// Read input data from a pin
 uint16_t GPIO_ReadPort(GPIO_RegDef_t *pGPIOx);									// Read input data from a port
 void GPIO_WritePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber, uint8_t value);	// Write data to an output pin
-void GPIO_WritePort(GPIO_RegDef_t *pGPIOx, uint16_t value);										// Write data to an output port
-void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);										// Toggle pin's state
+void GPIO_WritePort(GPIO_RegDef_t *pGPIOx, uint16_t value);						// Write data to an output port
+void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);					// Toggle pin's state
 
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t ENorDI);	// IRQ Configuration
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI);				// IRQ Interrupt Configuration
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t priority);				// IRQ Priority Configuration
 void GPIO_IRQHandler(uint8_t pinNumber);										// InterruptServiceRoutine Handling
 
 #endif /* INC_STM32F407XX_GPIO_H_ */
